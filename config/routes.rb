@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource  :profile, only: %i[show update]
+      resource  :profile, only: %i[show update], controller: :profile
       resources :items,   only: %i[index show]
       resources :orders,  only: %i[index show create]
 
