@@ -4,7 +4,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
 
-  # Пошук по назві та опису
+  # Search by name and description
   scope :search, lambda { |query|
     next all if query.blank?
 

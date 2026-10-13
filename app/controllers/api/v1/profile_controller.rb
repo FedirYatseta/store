@@ -15,7 +15,7 @@ module Api
 
       private
 
-      # role навмисно не дозволена
+      # role is intentionally not allowed
       def profile_params
         params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
       end

@@ -31,7 +31,7 @@ module Api
           @user = User.find(params[:id])
         end
 
-        # Адмін може змінювати роль
+        # Admin can change the role
         def user_params
           params.require(:user).permit(:first_name, :last_name, :email, :role, :password)
         end

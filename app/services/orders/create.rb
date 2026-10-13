@@ -1,6 +1,6 @@
 module Orders
-  # Створює Order + OrderDescription в одній транзакції.
-  # Сума рахується на сервері з актуальних цін, а не береться з клієнта.
+  # Creates an Order + OrderDescription in a single transaction.
+  # The total is calculated on the server from current prices, not taken from the client.
   class Create
     class Error < StandardError; end
 
@@ -22,7 +22,7 @@ module Orders
 
     private
 
-    # Повертає суму по позиції
+    # Returns the total for the line item
     def add_line(order, line)
       item = Item.find_by(id: line[:item_id]) or raise Error, "Item #{line[:item_id]} not found"
       description = order.order_descriptions.create!(item: item, quantity: line[:quantity])

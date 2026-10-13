@@ -6,7 +6,7 @@ module Api
         render json: orders
       end
 
-      # Розгорнутий заказ: позиції + товари
+      # Expanded order: positions + products
       def show
         order = current_user.orders.find(params[:id])
         render json: order_with_lines(order)

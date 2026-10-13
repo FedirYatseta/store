@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
 
   protected
 
-  # Роль при реєстрації задати не можна: за замовчуванням "user"
+  # The role cannot be set during registration; it defaults to "user"
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name])
   end
