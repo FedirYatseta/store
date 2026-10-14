@@ -19,12 +19,21 @@ module Api
         render json: order_with_lines(order), status: :created
       rescue Orders::Create::Error, ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
+      rescue ActionController::ParameterMissing, ActionController::BadRequest => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       private
 
       def lines_params
-        params.require(:items).map { |l| l.permit(:item_id, :quantity).to_h.symbolize_keys }
+        items = params.require(:items)
+        raise ActionController::BadRequest, "items must be an array" unless items.is_a?(Array)
+
+        items.map do |line|
+          raise ActionController::BadRequest, "each item must be an object" unless line.is_a?(ActionController::Parameters)
+
+          line.permit(:item_id, :quantity).to_h.symbolize_keys
+        end
       end
 
       def order_with_lines(order)

@@ -25,8 +25,23 @@ module Orders
     # Returns the total for the line item
     def add_line(order, line)
       item = Item.find_by(id: line[:item_id]) or raise Error, "Item #{line[:item_id]} not found"
-      description = order.order_descriptions.create!(item: item, quantity: line[:quantity])
+      description = order.order_descriptions.create!(item: item, quantity: quantity_for(line[:quantity]))
       item.price * description.quantity
+    end
+
+    def quantity_for(value)
+      quantity = case value
+      when Integer
+        value
+      when String
+        Integer(value, 10)
+      end
+
+      raise Error, "Quantity must be a positive integer" unless quantity&.positive?
+
+      quantity
+    rescue ArgumentError
+      raise Error, "Quantity must be a positive integer"
     end
   end
 end
