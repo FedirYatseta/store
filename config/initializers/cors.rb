@@ -1,6 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:5173" # Vite dev server for React
+    origins ENV['CLIENT_SERVER_URL'] # Vite dev server for React
     resource "*",
              headers: :any,
              methods: %i[get post put patch delete options],
